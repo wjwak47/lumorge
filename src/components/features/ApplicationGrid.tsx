@@ -6,6 +6,7 @@ import { FALLBACK_APPLICATIONS } from "@/data/fallbackData";
 // 直接使用静态数据
 const APPS = FALLBACK_APPLICATIONS.map(app => ({
   name: app.name || app.title,
+  slug: app.slug || app.id,
   imageUrl: app.imageUrl || app.image
 }));
 
@@ -28,7 +29,7 @@ export default function ApplicationGrid() {
           {APPS.map((app) => (
             <Link
               key={app.name}
-              href={`/applications/${app.name.toLowerCase().replace(/\s+/g, '-')}`}
+              href={`/applications/${app.slug}`}
               className="group block"
             >
               <div className="relative aspect-[3/2] rounded-2xl overflow-hidden">

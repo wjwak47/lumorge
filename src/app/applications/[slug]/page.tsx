@@ -5,7 +5,7 @@ import { FALLBACK_APPLICATIONS } from '@/data/fallbackData';
 // Generate static params for static export
 export async function generateStaticParams() {
   return FALLBACK_APPLICATIONS.map((app) => ({
-    slug: String(app.id),
+    slug: app.slug || String(app.id),
   }));
 }
 
@@ -17,8 +17,10 @@ export default async function ApplicationDetailPage({
 }) {
   const { slug } = await params;
 
-  // 直接从fallback数据获取应用
-  const application = FALLBACK_APPLICATIONS.find(app => String(app.id) === slug);
+  // 使用 slug 匹配应用
+  const application = FALLBACK_APPLICATIONS.find(
+    app => app.slug === slug || String(app.id) === slug
+  );
 
   if (!application) {
     notFound();

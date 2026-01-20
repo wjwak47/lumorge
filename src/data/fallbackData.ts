@@ -161,9 +161,26 @@ export const FALLBACK_NEWS = [
     slug: 'microled-technology-breakthrough',
     title: 'MicroLED Technology Breakthrough: P0.4 Displays Now Possible',
     excerpt: 'Industry achieves new milestone with 0.4mm pixel pitch MicroLED, opening doors for premium home theaters and professional monitors.',
+    content: `<h2>Revolutionary Advancement in Display Technology</h2>
+<p>The LED display industry has reached a significant milestone with the successful development of P0.4 MicroLED displays. This breakthrough represents a major leap forward in display technology, offering unprecedented pixel density and image quality.</p>
+
+<h3>Key Features of P0.4 MicroLED</h3>
+<ul>
+<li><strong>Ultra-fine Pixel Pitch:</strong> At just 0.4mm between pixels, these displays deliver exceptional clarity even at close viewing distances.</li>
+<li><strong>Superior Color Accuracy:</strong> Advanced color calibration technology ensures Rec.2020 color space coverage.</li>
+<li><strong>High Dynamic Range:</strong> Support for HDR10+ and Dolby Vision provides stunning contrast ratios.</li>
+<li><strong>Energy Efficiency:</strong> MicroLED technology reduces power consumption by up to 40% compared to traditional LED.</li>
+</ul>
+
+<h3>Applications</h3>
+<p>The P0.4 MicroLED technology opens new possibilities for premium home theaters, professional broadcast studios, high-end control rooms, and luxury retail environments where image quality is paramount.</p>
+
+<h3>Industry Impact</h3>
+<p>Industry analysts predict that this breakthrough will accelerate the adoption of MicroLED technology in the premium display market, potentially reshaping the competitive landscape.</p>`,
     featuredImage: 'https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     publishDate: '2026-01-18',
     readMinutes: 5,
+    category: 'Technology',
     isPublished: true,
     isHighlighted: true
   },
@@ -172,9 +189,26 @@ export const FALLBACK_NEWS = [
     slug: 'world-cup-stadium-led-upgrade',
     title: 'FIFA Certified: Major Stadium Completes 8K LED Upgrade',
     excerpt: 'State-of-the-art 8K perimeter boards and 2000sqm centerhung display installed for upcoming World Cup matches.',
+    content: `<h2>World-Class Stadium Technology Upgrade</h2>
+<p>A major international stadium has completed a comprehensive LED display upgrade in preparation for the upcoming World Cup matches. The project represents one of the largest sports venue display installations in history.</p>
+
+<h3>Installation Highlights</h3>
+<ul>
+<li><strong>8K Perimeter Boards:</strong> Over 800 linear meters of impact-resistant LED perimeter boards with soft mask protection.</li>
+<li><strong>Giant Centerhung Display:</strong> 2000 square meters of high-resolution LED panels suspended above the field.</li>
+<li><strong>Ribbon Displays:</strong> 360-degree continuous ribbon displays along stadium fascia.</li>
+<li><strong>Concourse Screens:</strong> Interactive wayfinding and information displays throughout.</li>
+</ul>
+
+<h3>Technical Specifications</h3>
+<p>The installation features P3 outdoor displays capable of 10,000 nits brightness, ensuring perfect visibility even in direct sunlight. The system includes real-time score integration and supports live broadcast feeds.</p>
+
+<h3>FIFA Certification</h3>
+<p>The completed installation has received official FIFA certification for international match broadcasting, meeting all technical requirements for camera integration and advertising visibility.</p>`,
     featuredImage: 'https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     publishDate: '2026-01-15',
     readMinutes: 4,
+    category: 'Sports',
     isPublished: true
   },
   {
@@ -182,9 +216,26 @@ export const FALLBACK_NEWS = [
     slug: 'sustainable-led-manufacturing',
     title: 'LED Industry Commits to Carbon Neutral Manufacturing by 2030',
     excerpt: 'Major LED manufacturers announce joint initiative for sustainable production, targeting 40% energy reduction in displays.',
+    content: `<h2>Industry-Wide Sustainability Initiative</h2>
+<p>Leading LED display manufacturers have announced a joint commitment to achieve carbon-neutral manufacturing operations by 2030. This landmark initiative represents the industry's response to growing environmental concerns.</p>
+
+<h3>Key Commitments</h3>
+<ul>
+<li><strong>Energy Reduction:</strong> 40% reduction in display power consumption through advanced driver IC technology.</li>
+<li><strong>Renewable Energy:</strong> 100% transition to renewable energy sources for manufacturing facilities.</li>
+<li><strong>Recycling Program:</strong> Comprehensive end-of-life recycling program for LED components.</li>
+<li><strong>Supply Chain:</strong> Carbon footprint tracking throughout the supply chain.</li>
+</ul>
+
+<h3>Technology Innovations</h3>
+<p>The initiative includes investment in new display technologies that consume less power while maintaining or improving brightness and color performance. Advanced power management systems will optimize energy usage based on content.</p>
+
+<h3>Industry Collaboration</h3>
+<p>Over 50 companies have signed the sustainability pledge, representing more than 70% of global LED display production capacity. Regular progress reports will be published to ensure transparency and accountability.</p>`,
     featuredImage: 'https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     publishDate: '2026-01-10',
     readMinutes: 3,
+    category: 'Sustainability',
     isPublished: true
   }
 ];
@@ -193,6 +244,7 @@ export const FALLBACK_NEWS = [
 export const FALLBACK_APPLICATIONS = [
   {
     id: '1',
+    slug: 'sports-stadium-displays',
     name: 'Sports Stadium Displays',
     title: 'Sports Stadium Displays',
     summary: 'Complete stadium LED solutions including giant screens, perimeter boards, ribbon displays, and integrated scoring systems.',
@@ -207,6 +259,7 @@ export const FALLBACK_APPLICATIONS = [
   },
   {
     id: '2',
+    slug: 'retail-shopping-mall',
     name: 'Retail & Shopping Mall',
     title: 'Retail & Shopping Mall',
     summary: 'Interactive digital signage and LED video walls for immersive shopping experiences and brand storytelling.',
@@ -221,6 +274,7 @@ export const FALLBACK_APPLICATIONS = [
   },
   {
     id: '3',
+    slug: 'concert-live-events',
     name: 'Concert & Live Events',
     title: 'Concert & Live Events',
     summary: 'High-impact touring LED screens, hanging displays, and creative stage designs for unforgettable live performances.',
@@ -235,6 +289,7 @@ export const FALLBACK_APPLICATIONS = [
   },
   {
     id: '4',
+    slug: 'control-room-command-center',
     name: 'Control Room & Command Center',
     title: 'Control Room & Command Center',
     summary: 'Mission-critical 24/7 LED video walls for security monitoring, traffic management, and emergency response.',
@@ -249,6 +304,7 @@ export const FALLBACK_APPLICATIONS = [
   },
   {
     id: '5',
+    slug: 'digital-billboard-advertising',
     name: 'Digital Billboard Advertising',
     title: 'Digital Billboard Advertising',
     summary: 'High-visibility outdoor LED billboards for roadside advertising, building wraps, and landmark displays.',
@@ -263,6 +319,7 @@ export const FALLBACK_APPLICATIONS = [
   },
   {
     id: '6',
+    slug: 'broadcast-virtual-production',
     name: 'Broadcast & Virtual Production',
     title: 'Broadcast & Virtual Production',
     summary: 'Professional LED backgrounds for news studios, virtual sets, and film production with camera-ready specifications.',

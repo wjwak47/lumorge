@@ -1,24 +1,47 @@
 import React from 'react';
 import ResourcePageClient from '@/components/features/ResourcePageClient';
+import { FALLBACK_NEWS } from '@/data/fallbackData';
 
 async function fetchNewsDetail(slug: string) {
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3006/api';
-  const res = await fetch(`${base}/public/news/${slug}`, { next: { revalidate: 30 } });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data?.data || null;
+  try {
+    const base = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3006/api';
+    const res = await fetch(`${base}/public/news/${slug}`, { next: { revalidate: 30 } });
+    if (!res.ok) {
+      // Fallback to local data
+      const fallbackItem = FALLBACK_NEWS.find(n => n.slug === slug || n.id === slug);
+      return fallbackItem || null;
+    }
+    const data = await res.json();
+    return data?.data || null;
+  } catch (e) {
+    // API unreachable, use fallback
+    const fallbackItem = FALLBACK_NEWS.find(n => n.slug === slug || n.id === slug);
+    return fallbackItem || null;
+  }
 }
 
 async function fetchRelated(category?: string, excludeSlug?: string) {
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3006/api';
-  const url = new URL(`${base}/public/news`);
-  url.searchParams.set('limit', '6');
-  if (category) url.searchParams.set('category', category);
-  const res = await fetch(url.toString(), { next: { revalidate: 30 } });
-  if (!res.ok) return [] as any[];
-  const data = await res.json();
-  const items = data?.data?.items || [];
-  return items.filter((i: any) => i.slug !== excludeSlug).slice(0, 6);
+  try {
+    const base = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3006/api';
+    const url = new URL(`${base}/public/news`);
+    url.searchParams.set('limit', '6');
+    if (category) url.searchParams.set('category', category);
+    const res = await fetch(url.toString(), { next: { revalidate: 30 } });
+    if (!res.ok) {
+      // Fallback to local data
+      let items = FALLBACK_NEWS.filter(n => n.slug !== excludeSlug);
+      if (category) items = items.filter(n => n.category === category);
+      return items.slice(0, 6);
+    }
+    const data = await res.json();
+    const items = data?.data?.items || [];
+    return items.filter((i: any) => i.slug !== excludeSlug).slice(0, 6);
+  } catch (e) {
+    // API unreachable, use fallback
+    let items = FALLBACK_NEWS.filter(n => n.slug !== excludeSlug);
+    if (category) items = items.filter(n => n.category === category);
+    return items.slice(0, 6);
+  }
 }
 
 export default async function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {

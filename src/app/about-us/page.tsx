@@ -13,7 +13,7 @@ export default function AboutUsPage() {
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 opacity-20">
             <Image
-              src="/images/about/hero-background.jpg"
+              src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
               alt="Team Background"
               fill
               style={{ objectFit: 'cover' }}
@@ -23,11 +23,11 @@ export default function AboutUsPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#000821]/80 to-[#001338]/80"></div>
           <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         </div>
-        
+
         {/* Circle decorations */}
         <div className="absolute -top-[400px] -right-[400px] w-[800px] h-[800px] rounded-full border-2 border-[#0052CC]/10"></div>
         <div className="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] rounded-full border-2 border-[#0052CC]/10"></div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <span className="inline-block px-4 py-1 bg-[#0052CC]/20 text-[#4A9FFF] rounded-full text-sm font-medium mb-6">
@@ -39,16 +39,16 @@ export default function AboutUsPage() {
             <p className="text-lg text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
               For over 15 years, TechSports has been at the forefront of innovation, creating cutting-edge solutions that transform sports venues and elevate the experience for fans and athletes alike.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 mt-10 w-full sm:w-auto px-4 sm:px-0">
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 className="bg-[#0052CC] hover:bg-[#0039A6] text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#0052CC]/30 flex items-center justify-center text-sm sm:text-base"
               >
                 Contact Us <ChevronRight size={18} className="ml-1" />
               </Link>
-              <Link 
-                href="/products" 
+              <Link
+                href="/products"
                 className="bg-transparent border-2 border-white/30 hover:border-white/60 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-[14px] rounded-full transition-all duration-300 text-sm sm:text-base"
               >
                 Our Products
@@ -57,15 +57,15 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Company Overview */}
       <section className="py-24 bg-white relative">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-                <Image 
-                  src="/images/about/company-overview.jpg"
+                <Image
+                  src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
                   alt="Sports Technology in Action"
                   fill
                   style={{ objectFit: 'cover' }}
@@ -73,7 +73,7 @@ export default function AboutUsPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000821]/60 to-transparent"></div>
               </div>
-              
+
               {/* Stats overlay - 移动端优化 */}
               <div className="absolute -right-4 md:-right-8 -bottom-4 md:-bottom-8 bg-white shadow-xl rounded-2xl p-4 md:p-6 max-w-[280px] md:max-w-[300px]">
                 <div className="grid grid-cols-2 gap-3 md:gap-6">
@@ -96,7 +96,7 @@ export default function AboutUsPage() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <span className="inline-flex items-center justify-center bg-blue-50 text-blue-600 text-sm font-medium py-1.5 px-4 rounded-full mb-4 border border-blue-100/50">
                 <Globe size={16} className="mr-2" />
@@ -111,7 +111,7 @@ export default function AboutUsPage() {
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Today, our products and services power some of the world's most iconic stadiums and arenas, from major league facilities to community venues. Our commitment to innovation, quality, and exceptional service has made us the partner of choice for sports organizations seeking to create unforgettable experiences.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
@@ -136,7 +136,7 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Our Values Section */}
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
@@ -152,7 +152,7 @@ export default function AboutUsPage() {
               At TechSports, these principles guide everything we do—from how we design our products to how we interact with our clients and each other.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -197,7 +197,7 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Meet Our Team Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
@@ -213,55 +213,55 @@ export default function AboutUsPage() {
               Our diverse team of experts brings together decades of experience in sports, technology, engineering, and design to create innovative solutions that transform the industry.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
                 name: "Sarah Johnson",
                 role: "Chief Executive Officer",
-                image: "/images/about/team/sarah-johnson.jpg",
+                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "With 20+ years of experience in sports technology, Sarah has led TechSports to become an industry leader since co-founding the company in 2008."
               },
               {
                 name: "David Chen",
                 role: "Chief Technology Officer",
-                image: "/images/about/team/david-chen.jpg",
+                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "David oversees all technological developments at TechSports, bringing his background in computer engineering and passion for sports to drive innovation."
               },
               {
                 name: "Michael Rodriguez",
                 role: "Head of Product Design",
-                image: "/images/about/team/michael-rodriguez.jpg",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "Michael leads our design team, ensuring all TechSports products combine cutting-edge functionality with intuitive, user-friendly design."
               },
               {
                 name: "Aisha Patel",
                 role: "Global Sales Director",
-                image: "/images/about/team/aisha-patel.jpg",
+                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "With a background in professional sports management, Aisha has expanded TechSports' presence to over 20 countries worldwide."
               },
               {
                 name: "James Wilson",
                 role: "Chief Operations Officer",
-                image: "/images/about/team/james-wilson.jpg",
+                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "James ensures the smooth operation of all TechSports divisions, bringing his experience from both the technology and sports industries."
               },
               {
                 name: "Elena Gomez",
                 role: "Head of Research",
-                image: "/images/about/team/elena-gomez.jpg",
+                image: "https://images.unsplash.com/photo-1598550874175-4d0ef436c909?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "Elena leads our research team, exploring emerging technologies and their potential applications in the sports industry."
               },
               {
                 name: "Robert Kim",
                 role: "Client Success Director",
-                image: "/images/about/team/robert-kim.jpg",
+                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "Robert ensures all our clients receive exceptional support and training, maintaining our industry-leading 95% client retention rate."
               },
               {
                 name: "Olivia Thompson",
                 role: "Marketing Director",
-                image: "/images/about/team/olivia-thompson.jpg",
+                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 bio: "Olivia leads our marketing strategies, showcasing TechSports' innovations to sports organizations around the world."
               }
             ].map((member, index) => (
@@ -297,12 +297,12 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       {/* Company History Timeline */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
         <div className="absolute -top-[400px] -right-[400px] w-[800px] h-[800px] rounded-full border-2 border-[#0052CC]/10"></div>
         <div className="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] rounded-full border-2 border-[#0052CC]/10"></div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-flex items-center justify-center bg-blue-50 text-blue-600 text-sm font-medium py-1.5 px-4 rounded-full mb-4 border border-blue-100/50">
@@ -316,7 +316,7 @@ export default function AboutUsPage() {
               From our humble beginnings to becoming a global leader in sports technology, our journey has been defined by innovation, perseverance, and a passion for enhancing the sports experience.
             </p>
           </div>
-          
+
           <div className="relative pl-8 border-l-2 border-[#0052CC]/30 max-w-3xl mx-auto">
             {[
               {
@@ -373,46 +373,40 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
-      <section className="py-24 bg-[#0052CC]">
-        <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto bg-white rounded-3xl p-12 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
-              <Image
-                src="/images/about/stadium-background.jpg"
-                alt="Stadium"
-                fill
-                style={{ objectFit: 'cover' }}
-                sizes="50vw"
-              />
-            </div>
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-              <div className="md:max-w-lg text-center md:text-left">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Ready to Transform Your Venue?</h2>
-                <p className="text-sm sm:text-base text-gray-600 mb-0">
-                  Join hundreds of sports organizations worldwide who trust TechSports to deliver cutting-edge technology solutions. Let's create amazing experiences together.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full md:w-auto">
-                <Link 
-                  href="/contact" 
-                  className="bg-[#0052CC] hover:bg-[#0039A6] text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#0052CC]/30 flex items-center justify-center text-sm sm:text-base whitespace-nowrap"
-                >
-                  Contact Us <ChevronRight size={18} className="ml-1" />
-                </Link>
-                <Link 
-                  href="/products" 
-                  className="bg-transparent border-2 border-[#0052CC] text-[#0052CC] font-semibold px-6 sm:px-8 py-2.5 sm:py-[14px] rounded-full hover:bg-blue-50 transition-all duration-300 flex items-center justify-center text-sm sm:text-base whitespace-nowrap"
-                >
-                  View Solutions
-                </Link>
-              </div>
+      <section className="py-24 bg-gradient-to-b from-[#000821] to-[#001338] relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        <div className="absolute -top-[300px] -right-[300px] w-[600px] h-[600px] rounded-full border-2 border-[#0052CC]/10"></div>
+        <div className="absolute -bottom-[300px] -left-[300px] w-[600px] h-[600px] rounded-full border-2 border-[#0052CC]/10"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Transform <span className="text-[#4A9FFF]">Your Venue</span>?
+            </h2>
+            <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
+              Join hundreds of sports organizations worldwide who trust TechSports to deliver cutting-edge technology solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link
+                href="/contact"
+                className="bg-gradient-to-r from-[#0052CC] to-[#0077FF] hover:from-[#0039A6] hover:to-[#0052CC] text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[#0052CC]/30 flex items-center justify-center"
+              >
+                Contact Us <ChevronRight size={18} className="ml-1" />
+              </Link>
+              <Link
+                href="/products"
+                className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 flex items-center justify-center"
+              >
+                View Solutions
+              </Link>
             </div>
           </div>
         </div>
       </section>
-      
+
       {/* Office Locations */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
@@ -428,7 +422,7 @@ export default function AboutUsPage() {
               With headquarters and regional offices across the globe, we provide localized support and expertise to clients on every continent.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -487,7 +481,7 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-      
+
       <style jsx>{`
         .bg-grid-pattern {
           background-image: 

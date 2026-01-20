@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Send, CheckCircle, Clock, Headphones, AlertCircle } from 'lucide-react';
+import Image from 'next/image';
+import { Send, Check, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import PhoneInput from '@/components/ui/PhoneInput';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -11,339 +13,214 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user types
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone is required';
-    if (!formData.subject) newErrors.subject = 'Please select a subject';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!validateForm()) return;
-    if (isSubmitting) return;
-
+    if (isSubmitting || !formData.name || !formData.email || !formData.message) return;
     setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    // Simulate API call
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    await new Promise(r => setTimeout(r, 1200));
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
 
-  return (
-    <main className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 to-blue-900 py-16 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '20px 20px'
-        }}></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-4 py-1 bg-blue-500/20 text-blue-200 rounded-full text-sm font-medium mb-6">
-              Get in Touch
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              Contact Our Sales Team
-            </h1>
-            <p className="text-lg text-white/80">
-              Have a question about our LED display solutions? Our team of experts is here to help you find the perfect solution.
-            </p>
+  if (isSuccess) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex items-center justify-center px-6">
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg shadow-emerald-200">
+            <Check size={40} className="text-white" />
           </div>
+          <h1 className="text-3xl font-bold text-slate-800 mb-4">Message Sent!</h1>
+          <p className="text-slate-500 mb-8">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
+          <button
+            onClick={() => setIsSuccess(false)}
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Send another message
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen">
+      {/* Hero Section with Image */}
+      <section className="relative h-[40vh] min-h-[320px] flex items-center justify-center overflow-hidden">
+        <Image
+          src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          alt="LED Display Technology"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/60 to-slate-900/80" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
+
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Get in Touch
+          </h1>
+          <p className="text-lg text-white/80 max-w-xl mx-auto">
+            Ready to transform your venue? Let's discuss your LED display project.
+          </p>
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section className="py-12 md:py-16 bg-gray-50">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+      {/* Main Content */}
+      <section className="bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-6xl mx-auto px-6 -mt-16 relative z-20 pb-24">
 
-                {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start">
-                    <CheckCircle className="text-green-600 mr-3 flex-shrink-0 mt-0.5" size={20} />
-                    <div>
-                      <h3 className="font-semibold text-green-900">Message Sent Successfully!</h3>
-                      <p className="text-sm text-green-700 mt-1">We will get back to you within 24 hours.</p>
-                    </div>
+          {/* Contact Cards */}
+          <div className="grid md:grid-cols-3 gap-4 mb-12">
+            {[
+              { icon: Phone, label: 'Call Us', value: '+1 (800) 555-0100', href: 'tel:+18005550100' },
+              { icon: Mail, label: 'Email Us', value: 'sales@lumorge.com', href: 'mailto:sales@lumorge.com' },
+              { icon: MapPin, label: 'Visit Us', value: 'Shenzhen, China', href: '#' },
+            ].map((item, i) => (
+              <a
+                key={i}
+                href={item.href}
+                className="group bg-white rounded-2xl p-6 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4"
+              >
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <item.icon size={22} className="text-white" />
+                </div>
+                <div>
+                  <div className="text-sm text-slate-400">{item.label}</div>
+                  <div className="text-slate-800 font-medium">{item.value}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Form Section */}
+          <div className="grid lg:grid-cols-5 gap-12 items-start">
+
+            {/* Left - Info */}
+            <div className="lg:col-span-2 space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800 mb-3">Let's Build Together</h2>
+                <p className="text-slate-500 leading-relaxed">
+                  Whether you need a stadium scoreboard, retail display, or custom LED solution, our team is ready to bring your vision to life.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { value: '500+', label: 'Venues Worldwide' },
+                  { value: '15+', label: 'Years Experience' },
+                  { value: '24/7', label: 'Support Available' },
+                  { value: '99%', label: 'Satisfaction Rate' },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4">
+                    <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
+                    <div className="text-sm text-slate-500">{stat.label}</div>
                   </div>
-                )}
+                ))}
+              </div>
 
-                {submitStatus === 'error' && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-sm text-red-700">Failed to send message. Please try again or contact us directly.</p>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="John Smith"
-                        className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-300'
-                          } bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                      />
-                      {errors.name && (
-                        <div className="flex items-center mt-1 text-red-600 text-sm">
-                          <AlertCircle size={14} className="mr-1" />
-                          {errors.name}
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="john@example.com"
-                        className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300'
-                          } bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                      />
-                      {errors.email && (
-                        <div className="flex items-center mt-1 text-red-600 text-sm">
-                          <AlertCircle size={14} className="mr-1" />
-                          {errors.email}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (234) 567-8900"
-                        className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-500' : 'border-gray-300'
-                          } bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                      />
-                      {errors.phone && (
-                        <div className="flex items-center mt-1 text-red-600 text-sm">
-                          <AlertCircle size={14} className="mr-1" />
-                          {errors.phone}
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                        Subject <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-gray-300'
-                          } bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                      >
-                        <option value="">Select a subject</option>
-                        <option value="sales">Sales Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="partnership">Partnership Opportunity</option>
-                        <option value="general">General Question</option>
-                        <option value="other">Other</option>
-                      </select>
-                      {errors.subject && (
-                        <div className="flex items-center mt-1 text-red-600 text-sm">
-                          <AlertCircle size={14} className="mr-1" />
-                          {errors.subject}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Your Message <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell us about your project or question..."
-                      rows={6}
-                      className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300'
-                        } bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none`}
-                    ></textarea>
-                    {errors.message && (
-                      <div className="flex items-center mt-1 text-red-600 text-sm">
-                        <AlertCircle size={14} className="mr-1" />
-                        {errors.message}
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send size={16} className="ml-2" />
-                      </>
-                    )}
-                  </button>
-                </form>
+              {/* Trust badges */}
+              <div className="pt-6 border-t border-slate-100">
+                <p className="text-sm text-slate-400 mb-4">Trusted by leading venues</p>
+                <div className="flex gap-6 opacity-40">
+                  <div className="text-2xl font-bold text-slate-600">FIFA</div>
+                  <div className="text-2xl font-bold text-slate-600">NBA</div>
+                  <div className="text-2xl font-bold text-slate-600">UEFA</div>
+                </div>
               </div>
             </div>
 
-            {/* Contact Info Sidebar */}
-            <div className="space-y-6">
-              {/* Contact Cards */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <Phone size={20} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">Phone</h4>
-                      <p className="text-gray-600 text-sm mt-1">+1 (800) 555-0100</p>
-                      <p className="text-gray-500 text-xs mt-0.5">Mon-Fri 9am-6pm EST</p>
-                    </div>
+            {/* Right - Form */}
+            <div className="lg:col-span-3">
+              <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 space-y-5">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
+                      placeholder="Your name"
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                    />
                   </div>
-
-                  <div className="flex items-start">
-                    <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <Mail size={20} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">Email</h4>
-                      <p className="text-gray-600 text-sm mt-1">sales@lumorge.com</p>
-                      <p className="text-gray-500 text-xs mt-0.5">24/7 Response</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <MapPin size={20} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">Address</h4>
-                      <p className="text-gray-600 text-sm mt-1">
-                        Shenzhen, Guangdong<br />
-                        China
-                      </p>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Email *</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
+                      placeholder="you@company.com"
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Support Hours */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
-                <div className="flex items-center mb-4">
-                  <Clock size={24} className="text-blue-600 mr-3" />
-                  <h3 className="text-lg font-semibold text-gray-900">Support Hours</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Monday - Friday</span>
-                    <span className="font-medium text-gray-900">9:00 AM - 6:00 PM</span>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone</label>
+                    <PhoneInput
+                      value={formData.phone}
+                      onChange={(value) => setFormData(p => ({ ...p, phone: value }))}
+                      placeholder="(555) 000-0000"
+                    />
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Saturday</span>
-                    <span className="font-medium text-gray-900">10:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-700">Sunday</span>
-                    <span className="font-medium text-gray-900">Closed</span>
-                  </div>
-                  <div className="pt-3 mt-3 border-t border-blue-200">
-                    <div className="flex items-center text-blue-700">
-                      <Headphones size={16} className="mr-2" />
-                      <span className="font-medium">24/7 Emergency Support Available</span>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Subject</label>
+                    <select
+                      value={formData.subject}
+                      onChange={(e) => setFormData(p => ({ ...p, subject: e.target.value }))}
+                      className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white"
+                    >
+                      <option value="">Select a topic</option>
+                      <option value="sales">Sales Inquiry</option>
+                      <option value="support">Technical Support</option>
+                      <option value="partnership">Partnership</option>
+                      <option value="quote">Request Quote</option>
+                    </select>
                   </div>
                 </div>
-              </div>
 
-              {/* Quick Stats */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Why Choose Us</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <CheckCircle size={18} className="text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">2-hour average response time</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle size={18} className="text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">99% client satisfaction rate</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle size={18} className="text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">500+ venues worldwide</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle size={18} className="text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">15+ years of expertise</span>
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Message *</label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))}
+                    placeholder="Tell us about your project..."
+                    className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
+                  />
                 </div>
-              </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 disabled:opacity-60"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
           </div>
         </div>
