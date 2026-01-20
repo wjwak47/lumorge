@@ -1,60 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Building2, Landmark, MonitorPlay, Lightbulb, Users, Trophy, Check, Grid, ArrowRight, Filter, ChevronLeft, Star, ChevronRight } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Building2, Landmark, MonitorPlay, Lightbulb, Trophy, Check, Grid, ArrowRight, Filter, ChevronLeft, Star, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import AnimatedSection from "@/components/ui/AnimatedSection";
-import { applicationApi } from "@/utils/api";
+import { FALLBACK_APPLICATIONS } from "@/data/fallbackData";
 
-// 复用ApplicationGrid中的类型和数据
-type FilterType = "All" | "Indoor" | "Outdoor" | "Rental" | "Sports" | "Lighting";
+// 分类过滤类型
+type FilterType = "All" | "Sports Venues" | "Retail" | "Entertainment" | "Corporate" | "Advertising" | "Media";
 
-const FILTERS: FilterType[] = ["All", "Indoor", "Outdoor", "Rental", "Sports", "Lighting"];
+const FILTERS: FilterType[] = ["All", "Sports Venues", "Retail", "Entertainment", "Corporate", "Advertising", "Media"];
 
-interface AppItem {
-  name: string;
-  desc: string;
-  icon: any;
-  categories: FilterType[];
-  stats: {
-    installations: number;
-    satisfaction: number;
-    energySaving: number;
-  };
-  benefits: string[];
-  imageUrl?: string;
-}
-
-// 应用场景数据现在完全从API动态获取，不再使用静态数据
-const APPLICATIONS: AppItem[] = [];
-
-// 获取图标组件（用于过滤器）
-const getIconComponent = (filter: FilterType) => {
-  switch (filter) {
-    case "Indoor": return Building2;
-    case "Outdoor": return Landmark;
-    case "Rental": return MonitorPlay;
-    case "Lighting": return Lightbulb;
-    case "Sports": return Trophy;
+// 获取图标
+const getIconComponent = (category: string) => {
+  switch (category) {
+    case "Sports Venues": return Trophy;
+    case "Retail": return Building2;
+    case "Entertainment": return MonitorPlay;
+    case "Corporate": return Landmark;
+    case "Advertising": return Lightbulb;
+    case "Media": return MonitorPlay;
     default: return Grid;
   }
 };
 
-// 获取应用图标组件（用于应用数据）
-const getAppIconComponent = (iconName: string) => {
-  switch (iconName) {
-    case "Building2": return Building2;
-    case "Landmark": return Landmark;
-    case "MonitorPlay": return MonitorPlay;
-    case "Lightbulb": return Lightbulb;
-    case "Users": return Users;
-    case "Trophy": return Trophy;
-    default: return MonitorPlay;
-  }
-};
-
-// 主页面组件
 export default function ApplicationsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,131 +35,63 @@ export default function ApplicationsPage() {
       ? (categoryParam as FilterType)
       : "All"
   );
-  const [allApps, setAllApps] = useState<AppItem[]>([]);
-  const [filteredApps, setFilteredApps] = useState<AppItem[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState<'api' | 'static' | 'loading'>('loading');
+  const [currentPage, setCurrentPage] = useState<number>(pageParam ? parseInt(pageParam) : 1);
 
   // 分页配置
-  const itemsPerPage = viewMode === 'grid' ? 6 : 5; // 网格视图每页6个，列表视图每页5个
-  const [currentPage, setCurrentPage] = useState<number>(pageParam ? parseInt(pageParam) : 1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [paginatedApps, setPaginatedApps] = useState<AppItem[]>([]);
+  const itemsPerPage = viewMode === 'grid' ? 6 : 5;
+
+  // 使用真实数据
+  const allApps = useMemo(() => {
+    return FALLBACK_APPLICATIONS.map(app => ({
+      ...app,
+      icon: getIconComponent(app.category),
+      desc: app.summary || app.description,
+      categories: [app.category],
+      stats: {
+        installations: app.installations || 100,
+        satisfaction: app.satisfaction || 95,
+        energySaving: 30
+      },
+      benefits: app.benefits || []
+    }));
+  }, []);
+
+  // 过滤数据
+  const filteredApps = useMemo(() => {
+    if (activeFilter === "All") {
+      return allApps;
+    }
+    return allApps.filter(app => app.category === activeFilter);
+  }, [activeFilter, allApps]);
+
+  // 分页
+  const totalPages = Math.ceil(filteredApps.length / itemsPerPage);
+  const paginatedApps = filteredApps.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   // 处理页面变化
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // 更新URL参数，保留现有的category参数
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', page.toString());
     router.push(`/applications?${params.toString()}`);
-
-    // 滚动到页面顶部
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 从API获取应用场景数据
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        setLoading(true);
-        console.log('🔍 开始获取应用场景数据...');
-
-        const response = await applicationApi.getPublicApplications();
-        console.log('📥 API响应:', response);
-
-        if (response.success && response.data && Array.isArray(response.data)) {
-          console.log(`✅ 成功获取 ${response.data.length} 个应用场景`);
-
-          // 无论数据多少，都使用API数据（包括空数组）
-          if (response.data.length === 0) {
-            console.log('📝 API返回空数据，显示空状态');
-            setAllApps([]);
-            setDataSource('api');
-          } else {
-            // 转换API数据为组件需要的格式
-            const formattedApps: AppItem[] = response.data.map((app: any) => ({
-              name: app.name,
-              desc: app.description,
-              icon: getAppIconComponent(app.icon),
-              categories: Array.isArray(app.categories) ? app.categories : [],
-              stats: {
-                installations: app.installations || 0,
-                satisfaction: app.satisfaction || 95,
-                energySaving: app.energySaving || 30
-              },
-              benefits: Array.isArray(app.benefits) ? app.benefits : [],
-              imageUrl: app.imageUrl || app.thumbnailImage || 'https://images.unsplash.com/photo-1580851935978-f6b4e359da3f?auto=format&fit=crop&w=2070&q=80',
-              slug: app.slug
-            }));
-
-            setAllApps(formattedApps);
-            setDataSource('api');
-          }
-          console.log('🎉 应用场景数据设置完成');
-        } else {
-          console.warn('⚠️ API返回格式不正确，显示空状态');
-          setAllApps([]);
-          setDataSource('static');
-        }
-      } catch (error) {
-        console.error('❌ 获取应用场景失败:', error);
-        console.log('🔄 API连接失败，显示空状态而不是静态数据');
-        setAllApps([]); // 显示空状态而不是静态数据
-        setDataSource('static');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchApplications();
-  }, []);
-
-  // 过滤应用程序
-  useEffect(() => {
-    let filtered = [];
-    if (activeFilter === "All") {
-      filtered = allApps;
-    } else {
-      filtered = allApps.filter(app => app.categories.includes(activeFilter));
-    }
-    setFilteredApps(filtered);
-
-    // 重置到第一页当过滤器改变时
-    setCurrentPage(1);
-
-    // 计算总页数
-    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-  }, [activeFilter, allApps]);
-
-  // 当视图模式改变时，重新计算分页
-  useEffect(() => {
-    setTotalPages(Math.ceil(filteredApps.length / itemsPerPage));
-  }, [viewMode, filteredApps, itemsPerPage]);
-
-  // 应用分页
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setPaginatedApps(filteredApps.slice(startIndex, endIndex));
-  }, [currentPage, filteredApps, itemsPerPage]);
-
-  // 当过滤器改变时，更新URL参数
+  // 更新过滤器
   const updateFilter = (filter: FilterType) => {
     setActiveFilter(filter);
-
-    // 更新URL参数
+    setCurrentPage(1);
     const params = new URLSearchParams(searchParams.toString());
     if (filter === "All") {
       params.delete('category');
     } else {
       params.set('category', filter);
     }
-    params.delete('page'); // 重置页码
+    params.delete('page');
     router.push(`/applications?${params.toString()}`);
   };
 
@@ -206,25 +107,12 @@ export default function ApplicationsPage() {
             </Link>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Sports Venue Solutions</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">LED Application Solutions</h1>
           <p className="text-xl text-blue-100 max-w-3xl">
-            Browse our comprehensive range of technology solutions designed specifically for sports venues, events, and organizations.
+            Discover our comprehensive range of LED display solutions designed for various industries and applications.
           </p>
 
-          {/* 数据来源指示器 */}
-          <div className="mt-6 text-sm">
-            {dataSource === 'loading' && (
-              <span className="text-blue-200">⏳ 正在加载数据...</span>
-            )}
-            {dataSource === 'api' && (
-              <span className="text-green-300">✅ Data source: Backend API</span>
-            )}
-            {dataSource === 'static' && (
-              <span className="text-orange-300">⚠️ Data source: Static fallback (API connection failed)</span>
-            )}
-          </div>
-
-          {/* 搜索栏 */}
+          {/* 统计数据 */}
           <div className="mt-12 flex flex-col md:flex-row items-stretch gap-4">
             <div className="flex-grow">
               <div className="bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 p-4 h-full">
@@ -308,72 +196,62 @@ export default function ApplicationsPage() {
           </h2>
           <p className="text-slate-600 mt-2">
             {activeFilter === "All"
-              ? "Browse our full range of venue technology solutions"
-              : `Specialized solutions for ${activeFilter.toLowerCase()} venues and applications`
+              ? "Browse our full range of LED display solutions"
+              : `Specialized solutions for ${activeFilter.toLowerCase()}`
             }
           </p>
         </div>
 
-        {/* 应用列表 */}
+        {/* 应用列表 - 网格视图 */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {paginatedApps.map((app) => (
-              <AnimatedSection
-                key={app.name}
-                threshold={0.1}
-                className="h-full"
-              >
-                <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  {/* 卡片图片 */}
-                  <div className="h-56 relative overflow-hidden">
-                    {app.imageUrl && (
-                      <>
-                        <img
-                          src={app.imageUrl}
-                          alt={app.name}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
-                      </>
-                    )}
+              <div key={app.id} className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden h-full flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                {/* 卡片图片 */}
+                <div className="h-56 relative overflow-hidden">
+                  <img
+                    src={app.imageUrl || app.image}
+                    alt={app.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
 
-                    <div className="absolute bottom-0 left-0 w-full p-5 text-white">
-                      <div className="flex items-start">
-                        <div className="mr-4 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
-                          <app.icon size={20} className="text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold">{app.name}</h3>
-                          <div className="flex items-center mt-1">
-                            <div className="flex">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star key={`star-${star}`} size={12} className="text-yellow-400 fill-yellow-400" />
-                              ))}
-                            </div>
-                            <span className="ml-2 text-xs text-white/80">{app.stats.satisfaction}% Satisfaction</span>
+                  <div className="absolute bottom-0 left-0 w-full p-5 text-white">
+                    <div className="flex items-start">
+                      <div className="mr-4 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
+                        <app.icon size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold">{app.name}</h3>
+                        <div className="flex items-center mt-1">
+                          <div className="flex">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star key={`star-${app.id}-${star}`} size={12} className="text-yellow-400 fill-yellow-400" />
+                            ))}
                           </div>
+                          <span className="ml-2 text-xs text-white/80">{app.stats.satisfaction}% Satisfaction</span>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* 卡片内容 */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {app.categories.map(category => (
-                        <span key={category} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
-                          {category}
-                        </span>
-                      ))}
-                    </div>
+                {/* 卡片内容 */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
+                      {app.category}
+                    </span>
+                  </div>
 
-                    <p className="text-slate-600 mb-5 flex-grow">{app.desc}</p>
+                  <p className="text-slate-600 mb-5 flex-grow">{app.desc}</p>
 
+                  {app.benefits && app.benefits.length > 0 && (
                     <div className="mb-5">
                       <h4 className="text-sm uppercase font-semibold text-slate-500 mb-3">Key Benefits</h4>
                       <ul className="space-y-2">
-                        {app.benefits.map((benefit, i) => (
-                          <li key={i} className="flex items-start">
+                        {app.benefits.slice(0, 3).map((benefit, i) => (
+                          <li key={`benefit-${app.id}-${i}`} className="flex items-start">
                             <span className="flex-shrink-0 text-blue-600 mr-2 mt-1">
                               <Check size={15} />
                             </span>
@@ -382,13 +260,70 @@ export default function ApplicationsPage() {
                         ))}
                       </ul>
                     </div>
+                  )}
 
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
-                      <div>
-                        <span className="text-sm text-slate-500">{app.stats.installations}+ Installations</span>
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                    <div>
+                      <span className="text-sm text-slate-500">{app.stats.installations}+ Installations</span>
+                    </div>
+                    <Link
+                      href={`/applications/${app.id}`}
+                      className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700"
+                    >
+                      View Details
+                      <ArrowRight size={16} className="ml-1" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* 列表视图 */
+          <div className="space-y-6">
+            {paginatedApps.map((app) => (
+              <div key={app.id} className="bg-white rounded-xl shadow-md border border-slate-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div className="flex flex-col md:flex-row">
+                  <div className="md:w-1/3 h-48 md:h-auto relative">
+                    <img
+                      src={app.imageUrl || app.image}
+                      alt={app.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <div className="p-6 md:w-2/3">
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
+                        {app.category}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">{app.name}</h3>
+                    <p className="text-slate-600 mb-4">{app.desc}</p>
+
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="p-3 bg-slate-50 rounded-lg">
+                        <div className="text-xs text-slate-500 mb-1">Installations</div>
+                        <div className="font-bold">{app.stats.installations}+</div>
+                      </div>
+                      <div className="p-3 bg-slate-50 rounded-lg">
+                        <div className="text-xs text-slate-500 mb-1">Satisfaction</div>
+                        <div className="font-bold">{app.stats.satisfaction}%</div>
+                      </div>
+                      <div className="p-3 bg-slate-50 rounded-lg">
+                        <div className="text-xs text-slate-500 mb-1">Energy Saving</div>
+                        <div className="font-bold">{app.stats.energySaving}%</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+                      <div className="flex items-center">
+                        <app.icon size={18} className="text-blue-600 mr-2" />
+                        <span className="text-sm font-medium">{app.benefits?.length || 0} Key Benefits</span>
                       </div>
                       <Link
-                        href={`/applications/${(app as any).slug || app.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={`/applications/${app.id}`}
                         className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700"
                       >
                         View Details
@@ -397,75 +332,7 @@ export default function ApplicationsPage() {
                     </div>
                   </div>
                 </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {paginatedApps.map((app) => (
-              <AnimatedSection
-                key={app.name}
-                threshold={0.1}
-                className="w-full"
-              >
-                <div className="bg-white rounded-xl shadow-md border border-slate-100 overflow-hidden hover:shadow-lg transition-all duration-300">
-                  <div className="flex flex-col md:flex-row">
-                    {/* 图片区域 */}
-                    <div className="md:w-1/3 h-48 md:h-auto relative">
-                      {app.imageUrl && (
-                        <img
-                          src={app.imageUrl}
-                          alt={app.name}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-
-                    {/* 内容区域 */}
-                    <div className="p-6 md:w-2/3">
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {app.categories.map(category => (
-                          <span key={category} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-md">
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-
-                      <h3 className="text-xl font-bold text-slate-900 mb-2">{app.name}</h3>
-                      <p className="text-slate-600 mb-4">{app.desc}</p>
-
-                      <div className="grid grid-cols-3 gap-4 mb-4">
-                        <div className="p-3 bg-slate-50 rounded-lg">
-                          <div className="text-xs text-slate-500 mb-1">Installations</div>
-                          <div className="font-bold">{app.stats.installations}+</div>
-                        </div>
-                        <div className="p-3 bg-slate-50 rounded-lg">
-                          <div className="text-xs text-slate-500 mb-1">Satisfaction</div>
-                          <div className="font-bold">{app.stats.satisfaction}%</div>
-                        </div>
-                        <div className="p-3 bg-slate-50 rounded-lg">
-                          <div className="text-xs text-slate-500 mb-1">Energy Saving</div>
-                          <div className="font-bold">{app.stats.energySaving}%</div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
-                        <div className="flex items-center">
-                          <app.icon size={18} className="text-blue-600 mr-2" />
-                          <span className="text-sm font-medium">{app.benefits.length} Key Benefits</span>
-                        </div>
-                        <Link
-                          href={`/applications/${(app as any).slug || app.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700"
-                        >
-                          View Details
-                          <ArrowRight size={16} className="ml-1" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
+              </div>
             ))}
           </div>
         )}
@@ -486,34 +353,18 @@ export default function ApplicationsPage() {
               </button>
 
               <div className="flex items-center gap-1 mx-1">
-                {[...Array(totalPages)].map((_, idx) => {
-                  const pageNum = idx + 1;
-                  // 显示最多5个页码按钮，其他使用省略号
-                  if (
-                    pageNum === 1 ||
-                    pageNum === totalPages ||
-                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-                  ) {
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        className={`min-w-[40px] h-10 px-3 rounded-lg ${currentPage === pageNum
-                            ? 'bg-blue-600 text-white font-medium'
-                            : 'text-slate-700 border border-slate-300 hover:bg-slate-50'
-                          }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  } else if (
-                    (pageNum === 2 && currentPage > 3) ||
-                    (pageNum === totalPages - 1 && currentPage < totalPages - 2)
-                  ) {
-                    return <span key={pageNum} className="px-1">...</span>;
-                  }
-                  return null;
-                })}
+                {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pageNum) => (
+                  <button
+                    key={`page-${pageNum}`}
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`min-w-[40px] h-10 px-3 rounded-lg ${currentPage === pageNum
+                        ? 'bg-blue-600 text-white font-medium'
+                        : 'text-slate-700 border border-slate-300 hover:bg-slate-50'
+                      }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
               </div>
 
               <button
@@ -555,7 +406,7 @@ export default function ApplicationsPage() {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Need a Custom Solution?</h2>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
-            Our team of experts can design a tailored technology package for your specific venue or event requirements.
+            Our team of experts can design a tailored LED solution for your specific requirements.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
@@ -565,14 +416,14 @@ export default function ApplicationsPage() {
               Contact Sales Team
             </Link>
             <Link
-              href="/solutions/custom"
+              href="/products"
               className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10"
             >
-              Explore Custom Options
+              Browse Products
             </Link>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
