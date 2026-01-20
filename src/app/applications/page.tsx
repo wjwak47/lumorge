@@ -31,7 +31,7 @@ const APPLICATIONS: AppItem[] = [];
 
 // 获取图标组件（用于过滤器）
 const getIconComponent = (filter: FilterType) => {
-  switch(filter) {
+  switch (filter) {
     case "Indoor": return Building2;
     case "Outdoor": return Landmark;
     case "Rental": return MonitorPlay;
@@ -43,7 +43,7 @@ const getIconComponent = (filter: FilterType) => {
 
 // 获取应用图标组件（用于应用数据）
 const getAppIconComponent = (iconName: string) => {
-  switch(iconName) {
+  switch (iconName) {
     case "Building2": return Building2;
     case "Landmark": return Landmark;
     case "MonitorPlay": return MonitorPlay;
@@ -60,10 +60,10 @@ export default function ApplicationsPage() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
   const pageParam = searchParams.get('page');
-  
+
   const [activeFilter, setActiveFilter] = useState<FilterType>(
-    categoryParam && FILTERS.includes(categoryParam as FilterType) 
-      ? (categoryParam as FilterType) 
+    categoryParam && FILTERS.includes(categoryParam as FilterType)
+      ? (categoryParam as FilterType)
       : "All"
   );
   const [allApps, setAllApps] = useState<AppItem[]>([]);
@@ -71,13 +71,13 @@ export default function ApplicationsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<'api' | 'static' | 'loading'>('loading');
-  
+
   // 分页配置
   const itemsPerPage = viewMode === 'grid' ? 6 : 5; // 网格视图每页6个，列表视图每页5个
   const [currentPage, setCurrentPage] = useState<number>(pageParam ? parseInt(pageParam) : 1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [paginatedApps, setPaginatedApps] = useState<AppItem[]>([]);
-  
+
   // 处理页面变化
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -85,27 +85,27 @@ export default function ApplicationsPage() {
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', page.toString());
     router.push(`/applications?${params.toString()}`);
-    
+
     // 滚动到页面顶部
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-  
+
   // 从API获取应用场景数据
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         setLoading(true);
         console.log('🔍 开始获取应用场景数据...');
-        
+
         const response = await applicationApi.getPublicApplications();
         console.log('📥 API响应:', response);
-        
+
         if (response.success && response.data && Array.isArray(response.data)) {
           console.log(`✅ 成功获取 ${response.data.length} 个应用场景`);
-          
+
           // 无论数据多少，都使用API数据（包括空数组）
           if (response.data.length === 0) {
             console.log('📝 API返回空数据，显示空状态');
@@ -127,7 +127,7 @@ export default function ApplicationsPage() {
               imageUrl: app.imageUrl || app.thumbnailImage || 'https://images.unsplash.com/photo-1580851935978-f6b4e359da3f?auto=format&fit=crop&w=2070&q=80',
               slug: app.slug
             }));
-            
+
             setAllApps(formattedApps);
             setDataSource('api');
           }
@@ -159,30 +159,30 @@ export default function ApplicationsPage() {
       filtered = allApps.filter(app => app.categories.includes(activeFilter));
     }
     setFilteredApps(filtered);
-    
+
     // 重置到第一页当过滤器改变时
     setCurrentPage(1);
-    
+
     // 计算总页数
     setTotalPages(Math.ceil(filtered.length / itemsPerPage));
   }, [activeFilter, allApps]);
-  
+
   // 当视图模式改变时，重新计算分页
   useEffect(() => {
     setTotalPages(Math.ceil(filteredApps.length / itemsPerPage));
   }, [viewMode, filteredApps, itemsPerPage]);
-  
+
   // 应用分页
   useEffect(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setPaginatedApps(filteredApps.slice(startIndex, endIndex));
   }, [currentPage, filteredApps, itemsPerPage]);
-  
+
   // 当过滤器改变时，更新URL参数
   const updateFilter = (filter: FilterType) => {
     setActiveFilter(filter);
-    
+
     // 更新URL参数
     const params = new URLSearchParams(searchParams.toString());
     if (filter === "All") {
@@ -205,12 +205,12 @@ export default function ApplicationsPage() {
               Back to Home
             </Link>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Sports Venue Solutions</h1>
           <p className="text-xl text-blue-100 max-w-3xl">
             Browse our comprehensive range of technology solutions designed specifically for sports venues, events, and organizations.
           </p>
-          
+
           {/* 数据来源指示器 */}
           <div className="mt-6 text-sm">
             {dataSource === 'loading' && (
@@ -223,7 +223,7 @@ export default function ApplicationsPage() {
               <span className="text-orange-300">⚠️ Data source: Static fallback (API connection failed)</span>
             )}
           </div>
-          
+
           {/* 搜索栏 */}
           <div className="mt-12 flex flex-col md:flex-row items-stretch gap-4">
             <div className="flex-grow">
@@ -247,7 +247,7 @@ export default function ApplicationsPage() {
           </div>
         </div>
       </div>
-      
+
       {/* 过滤器 */}
       <div className="sticky top-20 z-20 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6">
@@ -261,11 +261,10 @@ export default function ApplicationsPage() {
                     <button
                       key={filter}
                       onClick={() => updateFilter(filter)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center ${
-                        activeFilter === filter
+                      className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center ${activeFilter === filter
                           ? "bg-blue-600 text-white"
                           : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                      }`}
+                        }`}
                     >
                       <IconComponent size={16} className="mr-2" />
                       {filter}
@@ -274,7 +273,7 @@ export default function ApplicationsPage() {
                 })}
               </div>
             </div>
-            
+
             {/* 视图切换 */}
             <div className="flex items-center bg-slate-100 rounded-lg p-1">
               <button
@@ -297,13 +296,13 @@ export default function ApplicationsPage() {
           </div>
         </div>
       </div>
-      
+
       {/* 主内容区域 */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-slate-900">
-            {activeFilter === "All" 
-              ? "All Solutions" 
+            {activeFilter === "All"
+              ? "All Solutions"
               : `${activeFilter} Solutions (${filteredApps.length})`
             }
           </h2>
@@ -314,7 +313,7 @@ export default function ApplicationsPage() {
             }
           </p>
         </div>
-        
+
         {/* 应用列表 */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -329,15 +328,15 @@ export default function ApplicationsPage() {
                   <div className="h-56 relative overflow-hidden">
                     {app.imageUrl && (
                       <>
-                        <img 
-                          src={app.imageUrl} 
+                        <img
+                          src={app.imageUrl}
                           alt={app.name}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
                       </>
                     )}
-                    
+
                     <div className="absolute bottom-0 left-0 w-full p-5 text-white">
                       <div className="flex items-start">
                         <div className="mr-4 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
@@ -347,8 +346,8 @@ export default function ApplicationsPage() {
                           <h3 className="text-xl font-bold">{app.name}</h3>
                           <div className="flex items-center mt-1">
                             <div className="flex">
-                              {[...Array(5)].map((_, i) => (
-                                <Star key={i} size={12} className="text-yellow-400 fill-yellow-400" />
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star key={`star-${star}`} size={12} className="text-yellow-400 fill-yellow-400" />
                               ))}
                             </div>
                             <span className="ml-2 text-xs text-white/80">{app.stats.satisfaction}% Satisfaction</span>
@@ -357,7 +356,7 @@ export default function ApplicationsPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* 卡片内容 */}
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -367,9 +366,9 @@ export default function ApplicationsPage() {
                         </span>
                       ))}
                     </div>
-                    
+
                     <p className="text-slate-600 mb-5 flex-grow">{app.desc}</p>
-                    
+
                     <div className="mb-5">
                       <h4 className="text-sm uppercase font-semibold text-slate-500 mb-3">Key Benefits</h4>
                       <ul className="space-y-2">
@@ -383,12 +382,12 @@ export default function ApplicationsPage() {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                       <div>
                         <span className="text-sm text-slate-500">{app.stats.installations}+ Installations</span>
                       </div>
-                      <Link 
+                      <Link
                         href={`/applications/${(app as any).slug || app.name.toLowerCase().replace(/\s+/g, '-')}`}
                         className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700"
                       >
@@ -414,14 +413,14 @@ export default function ApplicationsPage() {
                     {/* 图片区域 */}
                     <div className="md:w-1/3 h-48 md:h-auto relative">
                       {app.imageUrl && (
-                        <img 
-                          src={app.imageUrl} 
+                        <img
+                          src={app.imageUrl}
                           alt={app.name}
                           className="w-full h-full object-cover"
                         />
                       )}
                     </div>
-                    
+
                     {/* 内容区域 */}
                     <div className="p-6 md:w-2/3">
                       <div className="flex flex-wrap gap-2 mb-2">
@@ -431,10 +430,10 @@ export default function ApplicationsPage() {
                           </span>
                         ))}
                       </div>
-                      
+
                       <h3 className="text-xl font-bold text-slate-900 mb-2">{app.name}</h3>
                       <p className="text-slate-600 mb-4">{app.desc}</p>
-                      
+
                       <div className="grid grid-cols-3 gap-4 mb-4">
                         <div className="p-3 bg-slate-50 rounded-lg">
                           <div className="text-xs text-slate-500 mb-1">Installations</div>
@@ -449,13 +448,13 @@ export default function ApplicationsPage() {
                           <div className="font-bold">{app.stats.energySaving}%</div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
                         <div className="flex items-center">
                           <app.icon size={18} className="text-blue-600 mr-2" />
                           <span className="text-sm font-medium">{app.benefits.length} Key Benefits</span>
                         </div>
-                        <Link 
+                        <Link
                           href={`/applications/${(app as any).slug || app.name.toLowerCase().replace(/\s+/g, '-')}`}
                           className="inline-flex items-center text-blue-600 font-medium hover:text-blue-700"
                         >
@@ -470,41 +469,39 @@ export default function ApplicationsPage() {
             ))}
           </div>
         )}
-        
+
         {/* 分页控件 */}
         {filteredApps.length > 0 && totalPages > 1 && (
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <div className="flex items-center gap-1">
-              <button 
+              <button
                 onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className={`p-2 rounded-lg border ${
-                  currentPage === 1 
-                    ? 'text-slate-400 border-slate-200 cursor-not-allowed' 
+                className={`p-2 rounded-lg border ${currentPage === 1
+                    ? 'text-slate-400 border-slate-200 cursor-not-allowed'
                     : 'text-blue-600 border-blue-200 hover:bg-blue-50'
-                }`}
+                  }`}
               >
                 <ChevronLeft size={18} />
               </button>
-              
+
               <div className="flex items-center gap-1 mx-1">
                 {[...Array(totalPages)].map((_, idx) => {
                   const pageNum = idx + 1;
                   // 显示最多5个页码按钮，其他使用省略号
                   if (
-                    pageNum === 1 || 
-                    pageNum === totalPages || 
+                    pageNum === 1 ||
+                    pageNum === totalPages ||
                     (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
                   ) {
                     return (
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`min-w-[40px] h-10 px-3 rounded-lg ${
-                          currentPage === pageNum
+                        className={`min-w-[40px] h-10 px-3 rounded-lg ${currentPage === pageNum
                             ? 'bg-blue-600 text-white font-medium'
                             : 'text-slate-700 border border-slate-300 hover:bg-slate-50'
-                        }`}
+                          }`}
                       >
                         {pageNum}
                       </button>
@@ -518,26 +515,25 @@ export default function ApplicationsPage() {
                   return null;
                 })}
               </div>
-              
-              <button 
+
+              <button
                 onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className={`p-2 rounded-lg border ${
-                  currentPage === totalPages 
-                    ? 'text-slate-400 border-slate-200 cursor-not-allowed' 
+                className={`p-2 rounded-lg border ${currentPage === totalPages
+                    ? 'text-slate-400 border-slate-200 cursor-not-allowed'
                     : 'text-blue-600 border-blue-200 hover:bg-blue-50'
-                }`}
+                  }`}
               >
                 <ChevronRight size={18} />
               </button>
             </div>
-            
+
             <div className="text-sm text-slate-500">
               Page {currentPage} of {totalPages} ({filteredApps.length} total items)
             </div>
           </div>
         )}
-        
+
         {/* 没有结果时显示 */}
         {filteredApps.length === 0 && (
           <div className="text-center py-20">
@@ -553,7 +549,7 @@ export default function ApplicationsPage() {
           </div>
         )}
       </div>
-      
+
       {/* 咨询部分 */}
       <div className="bg-gradient-to-br from-blue-900 to-slate-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-6 text-center">
