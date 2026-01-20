@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ChevronDown, Check, Download, Share2, X } from 'lucide-react';
+import { ArrowRight, ChevronRight, Check, Phone, Mail, MapPin } from 'lucide-react';
 import { FALLBACK_PRODUCTS } from '@/data/fallbackData';
 
 interface Product {
@@ -21,9 +21,7 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showSpecs, setShowSpecs] = useState(false);
-  const [selectedPitch, setSelectedPitch] = useState('P2.5');
-  const [selectedSize, setSelectedSize] = useState('500×500mm');
+  const [activeTab, setActiveTab] = useState('overview');
 
   // 图片列表
   const imageList = useMemo(() => {
@@ -37,293 +35,266 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   }, [product]);
 
   // 特性列表
-  const features = useMemo(() => {
-    if (Array.isArray(product.features) && product.features.length > 0) {
-      return product.features.slice(0, 4);
-    }
-    return ['4K Resolution', 'High Brightness', 'Wide Angle', 'IP65 Rated'];
-  }, [product]);
+  const features = [
+    { title: 'Ultra HD Resolution', desc: 'Crystal clear 4K display with exceptional detail' },
+    { title: 'High Brightness', desc: '5000-8000 nits for outdoor visibility' },
+    { title: 'Wide Viewing Angle', desc: '160° horizontal and vertical viewing' },
+    { title: 'Weather Resistant', desc: 'IP65 rated for all weather conditions' },
+    { title: 'Energy Efficient', desc: 'Low power consumption design' },
+    { title: 'Easy Maintenance', desc: 'Front and rear service access' },
+  ];
 
-  // 规格数据
-  const specifications = [
-    {
-      category: 'Display',
-      items: [
-        { name: 'Pixel Pitch', value: selectedPitch },
-        { name: 'Resolution', value: 'Up to 4K' },
-        { name: 'Brightness', value: '5000-8000 nits' },
-        { name: 'Refresh Rate', value: '3840Hz' },
-      ]
-    },
-    {
-      category: 'Physical',
-      items: [
-        { name: 'Cabinet Size', value: selectedSize },
-        { name: 'Material', value: 'Die-cast Aluminum' },
-        { name: 'Weight', value: '8-12 kg/panel' },
-        { name: 'Service', value: 'Front/Rear' },
-      ]
-    },
-    {
-      category: 'Environment',
-      items: [
-        { name: 'IP Rating', value: 'IP65/IP54' },
-        { name: 'Temperature', value: '-20°C to +50°C' },
-        { name: 'Power', value: '≤350W/m²' },
-        { name: 'Lifespan', value: '100,000 hrs' },
-      ]
-    }
+  // 规格表
+  const specs = {
+    'Display': [
+      ['Pixel Pitch', 'P2.5 / P3 / P4 / P5'],
+      ['Resolution', 'Up to 3840×2160 (4K)'],
+      ['Brightness', '5000-8000 cd/m²'],
+      ['Refresh Rate', '≥3840Hz'],
+      ['Gray Scale', '16bit'],
+    ],
+    'Physical': [
+      ['Cabinet Size', '500×500mm / 500×1000mm'],
+      ['Cabinet Weight', '8-12 kg'],
+      ['Material', 'Die-cast Aluminum'],
+      ['Thickness', '65mm'],
+    ],
+    'Electrical': [
+      ['Power Consumption', 'Max 650W/m², Avg 220W/m²'],
+      ['Input Voltage', 'AC 110-240V'],
+      ['Operating Temp', '-20°C ~ +50°C'],
+      ['IP Rating', 'Front IP65 / Rear IP54'],
+    ],
+  };
+
+  // 应用场景
+  const applications = [
+    { name: 'Sports Stadiums', image: 'https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { name: 'Shopping Malls', image: 'https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { name: 'Concert Venues', image: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=400' },
   ];
 
   // 相关产品
-  const relatedProducts = FALLBACK_PRODUCTS.filter(p => p.id !== product.id).slice(0, 3);
-
-  // 像素间距选项
-  const pitchOptions = ['P1.5', 'P2.5', 'P3', 'P4', 'P5'];
-  const sizeOptions = ['500×500mm', '500×1000mm', '1000×1000mm'];
+  const relatedProducts = FALLBACK_PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
 
   return (
-    <div className="w-full min-h-screen bg-[#0A1628]">
-      {/* 顶部导航栏 */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-[#0A1628]/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/products" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
-            <ArrowLeft size={18} />
-            <span className="text-sm font-medium">Products</span>
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <button className="p-2 rounded-full hover:bg-white/10 transition-colors">
-              <Share2 size={18} className="text-white/70" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-white/10 transition-colors">
-              <Download size={18} className="text-white/70" />
-            </button>
+    <div className="w-full min-h-screen bg-white pt-20">
+      {/* 面包屑 */}
+      <div className="border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <ChevronRight size={14} />
+            <Link href="/products" className="hover:text-blue-600">Products</Link>
+            <ChevronRight size={14} />
+            <span className="text-gray-900">{product.name}</span>
           </div>
         </div>
       </div>
 
-      {/* 主要内容区 - 全屏产品展示 */}
-      <section className="relative min-h-screen pt-16 pb-24 flex items-center">
-        {/* 背景光效 */}
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#2563EB]/20 rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-[#8B5CF6]/15 rounded-full blur-[120px]" />
-
-        {/* 产品大图 */}
-        <div className="absolute inset-0 pt-16 pb-24 flex items-center justify-center px-6">
-          <div className="relative w-full max-w-4xl aspect-video">
-            <img
-              src={imageList[currentImageIndex]}
-              alt={product.name}
-              className="w-full h-full object-contain drop-shadow-2xl"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800';
-              }}
-            />
-          </div>
-
-          {/* 图片导航 */}
-          {imageList.length > 1 && (
-            <>
-              <button
-                onClick={() => setCurrentImageIndex(prev => prev === 0 ? imageList.length - 1 : prev - 1)}
-                className="absolute left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all"
-              >
-                <ArrowLeft size={20} />
-              </button>
-              <button
-                onClick={() => setCurrentImageIndex(prev => (prev + 1) % imageList.length)}
-                className="absolute right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all"
-              >
-                <ArrowRight size={20} />
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* 悬浮信息卡片 - 毛玻璃效果 */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl px-6">
-          <div className="bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 p-8 shadow-2xl">
-            {/* 产品标题 */}
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <span className="inline-block px-3 py-1 bg-[#2563EB] text-white text-xs font-semibold rounded-full mb-3">
-                  {product.category || 'LED Display'}
-                </span>
-                <h1 className="text-3xl md:text-4xl font-bold text-white">
-                  {product.name}
-                </h1>
+      {/* 产品主区域 */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* 左侧 - 图片区 */}
+            <div className="space-y-4">
+              <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden">
+                <img
+                  src={imageList[currentImageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800';
+                  }}
+                />
               </div>
-            </div>
-
-            {/* 配置选择器 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* 像素间距 */}
-              <div>
-                <label className="block text-white/60 text-sm mb-2">Pixel Pitch</label>
-                <div className="flex flex-wrap gap-2">
-                  {pitchOptions.map(pitch => (
+              {imageList.length > 1 && (
+                <div className="flex gap-3">
+                  {imageList.map((img, idx) => (
                     <button
-                      key={pitch}
-                      onClick={() => setSelectedPitch(pitch)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedPitch === pitch
-                          ? 'bg-white text-[#0A1628]'
-                          : 'bg-white/10 text-white hover:bg-white/20'
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition ${idx === currentImageIndex ? 'border-blue-600' : 'border-gray-200'
                         }`}
                     >
-                      {pitch}
+                      <img src={img} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
-              </div>
-
-              {/* 尺寸 */}
-              <div>
-                <label className="block text-white/60 text-sm mb-2">Cabinet Size</label>
-                <div className="flex flex-wrap gap-2">
-                  {sizeOptions.map(size => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedSize === size
-                          ? 'bg-white text-[#0A1628]'
-                          : 'bg-white/10 text-white hover:bg-white/20'
-                        }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
 
-            {/* 核心特性 */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-[#10B981]/20 flex items-center justify-center">
-                    <Check size={12} className="text-[#10B981]" />
-                  </div>
-                  <span className="text-white/80 text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
+            {/* 右侧 - 信息区 */}
+            <div>
+              <div className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-sm font-medium rounded-full mb-4">
+                {product.category || 'LED Display'}
+              </div>
 
-            {/* 操作按钮 */}
-            <div className="flex gap-4">
-              <Link
-                href="/contact"
-                className="flex-1 inline-flex items-center justify-center px-8 py-4 bg-white text-[#0A1628] font-semibold rounded-xl hover:bg-[#F1F5F9] transition-all"
-              >
-                Request Quote
-                <ArrowRight size={18} className="ml-2" />
-              </Link>
-              <button
-                onClick={() => setShowSpecs(true)}
-                className="px-8 py-4 border-2 border-white/30 text-white font-medium rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
-              >
-                View Specs
-                <ChevronDown size={18} />
-              </button>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                {product.name}
+              </h1>
+
+              <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                {product.description || 'Professional LED display solution designed for world-class venues. Delivering exceptional visual quality with industry-leading brightness and reliability.'}
+              </p>
+
+              {/* 快速规格 */}
+              <div className="grid grid-cols-2 gap-4 p-6 bg-gray-50 rounded-xl mb-8">
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">Pixel Pitch</div>
+                  <div className="text-lg font-semibold text-gray-900">P2.5 - P5</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">Brightness</div>
+                  <div className="text-lg font-semibold text-gray-900">5000+ nits</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">Resolution</div>
+                  <div className="text-lg font-semibold text-gray-900">Up to 4K</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-500 mb-1">IP Rating</div>
+                  <div className="text-lg font-semibold text-gray-900">IP65</div>
+                </div>
+              </div>
+
+              {/* CTA按钮 */}
+              <div className="flex gap-4 mb-8">
+                <Link
+                  href="/contact"
+                  className="flex-1 inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition"
+                >
+                  Request Quote
+                  <ArrowRight size={18} className="ml-2" />
+                </Link>
+                <button className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-medium rounded-xl hover:border-gray-300 transition">
+                  Download PDF
+                </button>
+              </div>
+
+              {/* 联系信息 */}
+              <div className="flex flex-wrap gap-6 text-sm text-gray-600">
+                <a href="tel:+1234567890" className="flex items-center gap-2 hover:text-blue-600">
+                  <Phone size={16} />
+                  +1 (234) 567-890
+                </a>
+                <a href="mailto:sales@lumorge.com" className="flex items-center gap-2 hover:text-blue-600">
+                  <Mail size={16} />
+                  sales@lumorge.com
+                </a>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* 图片指示器 */}
-        {imageList.length > 1 && (
-          <div className="absolute bottom-48 left-1/2 -translate-x-1/2 flex gap-2">
-            {imageList.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${index === currentImageIndex ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60'
-                  }`}
-              />
-            ))}
-          </div>
-        )}
       </section>
 
-      {/* 规格弹窗 */}
-      {showSpecs && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6">
-          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[80vh] overflow-auto">
-            {/* 弹窗头部 */}
-            <div className="sticky top-0 bg-white border-b border-[#E2E8F0] px-8 py-5 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-[#0A1628]">Technical Specifications</h2>
+      {/* Tab导航区 */}
+      <section className="border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-8 border-b border-gray-100">
+            {['overview', 'specifications', 'applications'].map(tab => (
               <button
-                onClick={() => setShowSpecs(false)}
-                className="p-2 rounded-full hover:bg-[#F1F5F9] transition-colors"
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-4 text-sm font-medium capitalize transition border-b-2 -mb-px ${activeTab === tab
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-900'
+                  }`}
               >
-                <X size={24} className="text-[#64748B]" />
+                {tab}
               </button>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* 规格内容 */}
-            <div className="p-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {specifications.map((spec, index) => (
-                  <div key={index} className="bg-[#FAFBFD] rounded-2xl p-6">
-                    <h3 className="font-semibold text-[#0A1628] mb-4">{spec.category}</h3>
-                    <div className="space-y-3">
-                      {spec.items.map((item, i) => (
-                        <div key={i} className="flex justify-between">
-                          <span className="text-[#64748B] text-sm">{item.name}</span>
-                          <span className="text-[#0A1628] text-sm font-medium">{item.value}</span>
+      {/* Tab内容 */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Overview */}
+          {activeTab === 'overview' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-8">Key Features</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="p-6 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                      <Check size={20} className="text-blue-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                    <p className="text-gray-600 text-sm">{feature.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Specifications */}
+          {activeTab === 'specifications' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-8">Technical Specifications</h2>
+              <div className="grid md:grid-cols-3 gap-8">
+                {Object.entries(specs).map(([category, items]) => (
+                  <div key={category}>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
+                      {category}
+                    </h3>
+                    <dl className="space-y-3">
+                      {items.map(([key, value], idx) => (
+                        <div key={idx} className="flex justify-between">
+                          <dt className="text-gray-500 text-sm">{key}</dt>
+                          <dd className="text-gray-900 text-sm font-medium">{value}</dd>
                         </div>
                       ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Applications */}
+          {activeTab === 'applications' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-8">Applications</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                {applications.map((app, idx) => (
+                  <div key={idx} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
+                    <img src={app.image} alt={app.name} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-4 left-4">
+                      <h3 className="text-white font-semibold text-lg">{app.name}</h3>
                     </div>
                   </div>
                 ))}
               </div>
-
-              {/* 下载按钮 */}
-              <div className="mt-8 text-center">
-                <button className="inline-flex items-center px-6 py-3 bg-[#0A1628] text-white font-medium rounded-xl hover:bg-[#1E293B] transition-all">
-                  <Download size={18} className="mr-2" />
-                  Download Full Spec Sheet
-                </button>
-              </div>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </section>
 
-      {/* 相关产品区域 */}
-      <section className="bg-white py-20">
+      {/* 相关产品 */}
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-2xl font-bold text-[#0A1628]">Related Products</h2>
-            <Link href="/products" className="text-[#2563EB] font-medium hover:underline flex items-center gap-1">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold text-gray-900">Related Products</h2>
+            <Link href="/products" className="text-blue-600 font-medium hover:underline flex items-center gap-1">
               View All <ArrowRight size={16} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedProducts.map((relatedProduct) => (
-              <Link
-                key={relatedProduct.id}
-                href={`/products/${relatedProduct.id}`}
-                className="group block"
-              >
-                <div className="rounded-2xl overflow-hidden bg-[#FAFBFD] border border-[#E2E8F0] hover:shadow-xl transition-all duration-300">
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={relatedProduct.image}
-                      alt={relatedProduct.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800';
-                      }}
-                    />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {relatedProducts.map((p) => (
+              <Link key={p.id} href={`/products/${p.id}`} className="group">
+                <div className="bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition">
+                  <div className="aspect-square bg-gray-50">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                   </div>
-                  <div className="p-5">
-                    <span className="text-xs font-semibold text-[#2563EB] uppercase">
-                      {relatedProduct.category}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#0A1628] mt-1 group-hover:text-[#2563EB] transition-colors">
-                      {relatedProduct.name}
+                  <div className="p-4">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition line-clamp-1">
+                      {p.name}
                     </h3>
+                    <p className="text-sm text-gray-500 mt-1">{p.category}</p>
                   </div>
                 </div>
               </Link>
@@ -333,17 +304,17 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       </section>
 
       {/* 底部CTA */}
-      <section className="bg-[#0A1628] py-16 border-t border-white/10">
+      <section className="py-16 bg-gray-900">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Venue?
+            Ready to Get Started?
           </h2>
-          <p className="text-white/60 mb-8">
-            Get in touch with our team for custom configurations and pricing
+          <p className="text-gray-400 mb-8">
+            Contact us for pricing and custom solutions
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center px-8 py-4 bg-white text-[#0A1628] font-semibold rounded-xl hover:bg-[#F1F5F9] transition-all"
+            className="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition"
           >
             Contact Sales
             <ArrowRight size={18} className="ml-2" />
