@@ -303,9 +303,12 @@ export default function Hero() {
                   )}
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div className="text-white text-center">
-                    <div className="text-3xl md:text-4xl font-bold tracking-tighter">TECH</div>
-                    <div className="text-3xl md:text-4xl font-bold tracking-tighter text-[#00A3FF]">SPORTS</div>
+                  <div className="text-center">
+                    <div className="text-2xl md:text-3xl font-bold tracking-widest">
+                      <span className="text-white">LU</span>
+                      <span className="text-[#00A3FF]">MORGE</span>
+                    </div>
+                    <div className="text-xs md:text-sm text-white/60 mt-1 tracking-wider">LED DISPLAY</div>
                   </div>
                 </div>
 
