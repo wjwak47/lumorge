@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Home",
+    "link": "/",
+    "order": 1,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  },
+  {
+    "id": 2,
+    "name": "Products",
+    "link": "/products",
+    "order": 2,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  },
+  {
+    "id": 3,
+    "name": "Applications",
+    "link": "/applications",
+    "order": 3,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  },
+  {
+    "id": 4,
+    "name": "Contact",
+    "link": "/contact",
+    "order": 4,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  },
+  {
+    "id": 5,
+    "name": "About Us",
+    "link": "/about-us",
+    "order": 5,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  },
+  {
+    "id": 6,
+    "name": "News",
+    "link": "/resources",
+    "order": 6,
+    "isVisible": true,
+    "parentId": null,
+    "target": "_self"
+  }
+]

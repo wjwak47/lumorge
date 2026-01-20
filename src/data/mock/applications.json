@@ -1,0 +1,119 @@
+[
+  {
+    "id": "olympic-stadium",
+    "slug": "olympic-stadium-implementation",
+    "title": "Olympic Stadium Implementation",
+    "category": "Sports Venues",
+    "summary": "Complete technology solution for Olympic venue including LED displays, sound systems, and control infrastructure.",
+    "content": "Powering the world's biggest sporting event with reliable technology. Our comprehensive solution includes state-of-the-art LED displays, professional audio systems, and centralized control infrastructure that ensures seamless operation during the most prestigious sporting events.",
+    "image": "/images/applications/olympic.jpg",
+    "images": [
+      "/images/applications/olympic.jpg",
+      "/images/applications/olympic-detail-1.jpg",
+      "/images/applications/olympic-detail-2.jpg"
+    ],
+    "technologies": ["LED Displays", "Audio Systems", "Control Infrastructure", "Network Solutions"],
+    "metrics": {
+      "venue_capacity": "80,000 spectators",
+      "display_area": "2,000 sqm",
+      "audio_coverage": "100% venue coverage",
+      "installation_time": "6 months"
+    },
+    "isPublished": true,
+    "publishDate": "2023-11-15",
+    "featured": true
+  },
+  {
+    "id": "football-stadium",
+    "slug": "professional-football-stadium",
+    "title": "Professional Football Stadium",
+    "category": "Sports Venues",
+    "summary": "State-of-the-art display and audio solution for professional football stadium seating 80,000 fans.",
+    "content": "Enhanced viewing experience for one of Europe's premier football clubs. This comprehensive installation features ultra-high-definition LED displays, immersive audio systems, and intelligent control solutions that create an unforgettable experience for fans.",
+    "image": "/images/applications/football.jpg",
+    "images": [
+      "/images/applications/football.jpg",
+      "/images/applications/football-detail-1.jpg",
+      "/images/applications/football-detail-2.jpg"
+    ],
+    "technologies": ["4K LED Displays", "Surround Audio", "Fan Engagement Systems", "Real-time Analytics"],
+    "metrics": {
+      "venue_capacity": "80,000 spectators",
+      "display_resolution": "4K Ultra HD",
+      "audio_zones": "12 zones",
+      "completion_time": "4 months"
+    },
+    "isPublished": true,
+    "publishDate": "2023-10-22",
+    "featured": true
+  },
+  {
+    "id": "basketball-arena",
+    "slug": "modern-basketball-arena",
+    "title": "Modern Basketball Arena",
+    "category": "Indoor Venues",
+    "summary": "Cutting-edge technology integration for a premier basketball arena with advanced fan engagement features.",
+    "content": "Revolutionary fan experience through technology. This modern basketball arena features interactive displays, mobile app integration, and real-time statistics that keep fans engaged throughout the game.",
+    "image": "/images/applications/basketball.jpg",
+    "images": [
+      "/images/applications/basketball.jpg",
+      "/images/applications/basketball-detail-1.jpg"
+    ],
+    "technologies": ["Interactive Displays", "Mobile Integration", "Statistics Systems", "Fan Analytics"],
+    "metrics": {
+      "venue_capacity": "20,000 spectators",
+      "interactive_zones": "8 zones",
+      "mobile_users": "15,000+ active",
+      "engagement_increase": "40%"
+    },
+    "isPublished": true,
+    "publishDate": "2023-09-10",
+    "featured": false
+  },
+  {
+    "id": "tennis-complex",
+    "slug": "international-tennis-complex",
+    "title": "International Tennis Complex",
+    "category": "Outdoor Venues",
+    "summary": "Multi-court tennis facility with synchronized display and audio systems for tournament broadcasting.",
+    "content": "Professional tournament infrastructure for international tennis events. Features synchronized displays across multiple courts, broadcast-quality audio systems, and weather-resistant technology designed for outdoor sporting events.",
+    "image": "/images/applications/tennis.jpg",
+    "images": [
+      "/images/applications/tennis.jpg",
+      "/images/applications/tennis-detail-1.jpg"
+    ],
+    "technologies": ["Weather-Resistant Displays", "Broadcast Audio", "Multi-Court Sync", "Tournament Management"],
+    "metrics": {
+      "courts": "16 courts",
+      "display_sync": "Real-time",
+      "weather_rating": "IP65",
+      "broadcast_ready": "Yes"
+    },
+    "isPublished": true,
+    "publishDate": "2023-08-05",
+    "featured": false
+  },
+  {
+    "id": "esports-arena",
+    "slug": "esports-gaming-arena",
+    "title": "eSports Gaming Arena",
+    "category": "Entertainment",
+    "summary": "High-tech gaming venue with ultra-low latency displays and immersive audio for competitive gaming.",
+    "content": "Next-generation gaming experience with cutting-edge technology. This eSports arena features ultra-low latency displays, spatial audio systems, and streaming infrastructure that meets the demands of professional competitive gaming.",
+    "image": "/images/applications/esports.jpg",
+    "images": [
+      "/images/applications/esports.jpg",
+      "/images/applications/esports-detail-1.jpg"
+    ],
+    "technologies": ["Low-Latency Displays", "Spatial Audio", "Streaming Infrastructure", "Gaming Analytics"],
+    "metrics": {
+      "venue_capacity": "5,000 spectators",
+      "display_latency": "< 1ms",
+      "streaming_quality": "4K 60fps",
+      "audio_precision": "360° spatial"
+    },
+    "isPublished": true,
+    "publishDate": "2023-07-20",
+    "featured": false
+  }
+]

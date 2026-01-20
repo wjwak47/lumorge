@@ -1,0 +1,63 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Product Image Placeholder</title>
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: linear-gradient(120deg, #0D2F6B, #051630);
+        }
+        .placeholder {
+          width: 80%;
+          padding: 40px;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+          backdrop-filter: blur(4px);
+        }
+        h1 {
+          color: white;
+          font-family: Arial, sans-serif;
+          margin-bottom: 20px;
+        }
+        p {
+          color: rgba(255, 255, 255, 0.8);
+          font-family: Arial, sans-serif;
+        }
+        .logo {
+          font-size: 32px;
+          font-weight: bold;
+          margin-bottom: 30px;
+        }
+        .logo span:first-child {
+          color: white;
+        }
+        .logo span:last-child {
+          background-color: white;
+          color: #0D2F6B;
+          padding: 0 8px;
+          border-radius: 4px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="placeholder">
+        <div class="logo">
+          <span>TECH</span><span>SPORTS</span>
+        </div>
+        <h1>Audio System Detail 5</h1>
+        <p>This is a placeholder for a product image that would typically be uploaded through the admin system.</p>
+      </div>
+    </body>
+  </html>
+  

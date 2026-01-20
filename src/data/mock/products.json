@@ -1,0 +1,184 @@
+[
+  {
+    "id": "smart-led",
+    "name": "SmartLED Display System",
+    "category": "display",
+    "description": "Ultra HD LED display systems with intelligent content management for scoreboards and venue displays.",
+    "image": "/images/products/led-display-1.jpg",
+    "images": [
+      "/images/products/led-display-1.jpg",
+      "/images/products/led-display-2.jpg",
+      "/images/products/led-display-3.jpg",
+      "/images/products/led-display-detail-1.jpg"
+    ],
+    "features": ["4K Resolution", "Weather Resistant", "Smart Content Management", "Remote Control"],
+    "specifications": {
+      "Technical Specifications": [
+        {"name": "Resolution", "value": "4K Ultra HD"},
+        {"name": "Size", "value": "65 inches"},
+        {"name": "Brightness", "value": "5000 nits"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Professional Sports Stadiums", 
+        "description": "Perfect for large venue displays with high brightness and clarity",
+        "icon": "🏟️"
+      }
+    ],
+    "tags": ["Popular", "Featured"],
+    "iconName": "Layers",
+    "highlight": true
+  },
+  {
+    "id": "arena-control",
+    "name": "Arena Control Center",
+    "category": "control",
+    "description": "Centralized control system for managing all venue technology from a single dashboard.",
+    "image": "/images/products/control-system-1.jpg",
+    "images": [
+      "/images/products/control-system-1.jpg",
+      "/images/products/control-system-2.jpg",
+      "/images/products/control-system-3.jpg"
+    ],
+    "features": ["Touch Interface", "Multi-zone Control", "Automation", "Analytics Dashboard"],
+    "specifications": {
+      "Performance": [
+        {"name": "Response Time", "value": "< 1ms"},
+        {"name": "Connections", "value": "Up to 50 devices"},
+        {"name": "Range", "value": "500m wireless"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Arena Control Centers",
+        "description": "Centralized control for all venue technology systems",
+        "icon": "🎛️"
+      }
+    ],
+    "tags": ["New"],
+    "iconName": "Cpu",
+    "highlight": false
+  },
+  {
+    "id": "wifi-pro",
+    "name": "Stadium WiFi Pro",
+    "category": "connectivity",
+    "description": "High-density WiFi solution designed specifically for large venue deployments with thousands of concurrent users.",
+    "image": "/images/products/integration-1.jpg",
+    "images": [
+      "/images/products/integration-1.jpg",
+      "/images/products/integration-2.jpg",
+      "/images/products/integration-3.jpg"
+    ],
+    "features": ["50,000+ Connections", "Low Latency", "Seamless Handoff", "Fan Analytics"],
+    "specifications": {
+      "Network": [
+        {"name": "Concurrent Users", "value": "50,000+"},
+        {"name": "Coverage", "value": "Stadium-wide"},
+        {"name": "Speed", "value": "Gigabit"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Large Venue WiFi",
+        "description": "High-capacity wireless networking for sports venues",
+        "icon": "📶"
+      }
+    ],
+    "tags": [],
+    "iconName": "Wifi",
+    "highlight": false
+  },
+  {
+    "id": "venue-analytics",
+    "name": "Venue Analytics Platform",
+    "category": "analytics",
+    "description": "Real-time analytics platform for tracking attendance, engagement, and venue performance metrics.",
+    "image": "/images/products/audio-system-1.jpg",
+    "images": [
+      "/images/products/audio-system-1.jpg",
+      "/images/products/audio-system-2.jpg",
+      "/images/products/audio-system-3.jpg",
+      "/images/products/audio-system-detail-1.jpg"
+    ],
+    "features": ["Real-time Dashboards", "Predictive Analysis", "Custom Reports", "Data Export"],
+    "specifications": {
+      "Analytics": [
+        {"name": "Data Points", "value": "1000+ metrics"},
+        {"name": "Real-time", "value": "< 1 second"},
+        {"name": "Storage", "value": "Unlimited"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Performance Analytics",
+        "description": "Comprehensive venue and event performance tracking",
+        "icon": "📊"
+      }
+    ],
+    "tags": ["Popular"],
+    "iconName": "BarChart4",
+    "highlight": true
+  },
+  {
+    "id": "access-secure",
+    "name": "AccessSecure System",
+    "category": "security",
+    "description": "Advanced access control and security management system for sporting venues with biometric options.",
+    "image": "/images/products/integration-1.jpg",
+    "images": [
+      "/images/products/integration-1.jpg",
+      "/images/products/integration-detail-1.jpg",
+      "/images/products/integration-detail-2.jpg"
+    ],
+    "features": ["Facial Recognition", "RFID Support", "Mobile Tickets", "VIP Management"],
+    "specifications": {
+      "Security": [
+        {"name": "Recognition Speed", "value": "< 0.5 seconds"},
+        {"name": "Accuracy", "value": "99.9%"},
+        {"name": "Capacity", "value": "100,000 profiles"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Venue Security",
+        "description": "Advanced access control for secure venue management",
+        "icon": "🔒"
+      }
+    ],
+    "tags": [],
+    "iconName": "Shield",
+    "highlight": false
+  },
+  {
+    "id": "power-grid",
+    "name": "PowerGrid Manager",
+    "category": "infrastructure",
+    "description": "Intelligent power management solution for optimizing energy usage across large sports facilities.",
+    "image": "/images/products/led-display-1.jpg",
+    "images": [
+      "/images/products/led-display-1.jpg",
+      "/images/products/led-display-detail-1.jpg",
+      "/images/products/led-display-detail-2.jpg"
+    ],
+    "features": ["Energy Optimization", "Load Balancing", "Backup Systems", "Green Energy Integration"],
+    "specifications": {
+      "Power": [
+        {"name": "Efficiency", "value": "95%+"},
+        {"name": "Load Capacity", "value": "10MW"},
+        {"name": "Response Time", "value": "Instant"}
+      ]
+    },
+    "useCases": [
+      {
+        "title": "Energy Management",
+        "description": "Intelligent power distribution and optimization",
+        "icon": "⚡"
+      }
+    ],
+    "tags": ["Eco-friendly"],
+    "iconName": "Zap",
+    "highlight": false
+  }
+]

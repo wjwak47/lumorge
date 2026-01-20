@@ -1,0 +1,28 @@
+{
+  "_id": "default",
+  "name": "Default Banner",
+  "tagline": "INDUSTRY LEADER",
+  "titleLine1": "Next-Level",
+  "titleLine2": "Sports Technology",
+  "titleLine2Highlight": true,
+  "subtitle": "Powering world-class venues with cutting-edge solutions that transform the spectator and athlete experience.",
+  "primaryButtonText": "Our Solutions",
+  "primaryButtonActionType": "scroll",
+  "primaryButtonTarget": "products",
+  "secondaryButtonText": "See Applications",
+  "secondaryButtonActionType": "scroll",
+  "secondaryButtonTarget": "application",
+  "mainBackgroundImageUrl": "https://images.unsplash.com/photo-1577223625816-7546f13df25d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+  "visualElementImageUrl": "https://images.unsplash.com/photo-1531907700752-62799b2a3e84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80",
+  "floatingCard1Text": "LED",
+  "floatingCard2Text": "HD",
+  "stats": [
+    { "value": "500+", "label": "Venues equipped" },
+    { "value": "20+", "label": "Countries" },
+    { "value": "15yrs", "label": "Industry experience" },
+    { "value": "24/7", "label": "Technical support" }
+  ],
+  "isActive": true,
+  "createdAt": "2026-01-20T10:00:00.000Z",
+  "updatedAt": "2026-01-20T10:00:00.000Z"
+}

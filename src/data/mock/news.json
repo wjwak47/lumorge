@@ -1,0 +1,109 @@
+[
+  {
+    "id": "1",
+    "slug": "lumorge-launches-revolutionary-led-display",
+    "title": "LUMORGE Launches Revolutionary LED Display System",
+    "content": "LUMORGE has unveiled its latest generation of stadium LED displays, featuring unprecedented resolution and brightness. The new SmartLED Display System offers 4K Ultra HD resolution with 5000 nits brightness, making it perfect for outdoor sports venues and large-scale events.",
+    "summary": "New technology sets new standards for sports venues worldwide.",
+    "excerpt": "Revolutionary LED display technology with 4K resolution and weather-resistant design.",
+    "type": "news",
+    "category": "Product Launch",
+    "image": "/images/news/news-1.jpg",
+    "images": [
+      "/images/news/news-1.jpg",
+      "/images/news/news-1-detail.jpg"
+    ],
+    "author": "Tech Team",
+    "publishDate": "2023-11-15",
+    "publishedAt": "2023-11-15T10:00:00.000Z",
+    "isPublished": true,
+    "featured": true,
+    "tags": ["LED", "Display", "Technology", "Innovation"],
+    "readTime": "3 min read"
+  },
+  {
+    "id": "2",
+    "slug": "major-league-stadium-upgrades",
+    "title": "Major League Stadium Upgrades with LUMORGE Solutions",
+    "content": "A major league stadium has completed a comprehensive technology upgrade using LUMORGE integrated systems. The installation includes LED displays, audio systems, and centralized control infrastructure that enhances the fan experience and operational efficiency.",
+    "summary": "Complete renovation enhances fan experience with cutting-edge technology.",
+    "excerpt": "Comprehensive stadium upgrade featuring integrated technology solutions.",
+    "type": "news",
+    "category": "Case Study",
+    "image": "/images/news/news-2.jpg",
+    "images": [
+      "/images/news/news-2.jpg",
+      "/images/news/news-2-detail.jpg"
+    ],
+    "author": "Sports Tech Reporter",
+    "publishDate": "2023-10-22",
+    "publishedAt": "2023-10-22T14:30:00.000Z",
+    "isPublished": true,
+    "featured": true,
+    "tags": ["Stadium", "Upgrade", "Integration", "Fan Experience"],
+    "readTime": "5 min read"
+  },
+  {
+    "id": "3",
+    "slug": "esports-arena-technology-integration",
+    "title": "eSports Arena Sets New Standard with LUMORGE Technology",
+    "content": "The latest eSports arena installation showcases LUMORGE's capability in high-tech gaming environments. Featuring ultra-low latency displays and spatial audio systems, the venue provides an immersive experience for both players and spectators.",
+    "summary": "Cutting-edge technology creates immersive gaming experience.",
+    "excerpt": "Ultra-low latency displays and spatial audio for competitive gaming.",
+    "type": "news",
+    "category": "Innovation",
+    "image": "/images/news/news-3.jpg",
+    "images": [
+      "/images/news/news-3.jpg"
+    ],
+    "author": "Gaming Tech Specialist",
+    "publishDate": "2023-09-18",
+    "publishedAt": "2023-09-18T16:45:00.000Z",
+    "isPublished": true,
+    "featured": false,
+    "tags": ["eSports", "Gaming", "Low Latency", "Audio"],
+    "readTime": "4 min read"
+  },
+  {
+    "id": "4",
+    "slug": "sustainability-initiative-green-technology",
+    "title": "LUMORGE Announces Sustainability Initiative",
+    "content": "LUMORGE is committed to environmental responsibility with the launch of its Green Technology Initiative. The program focuses on energy-efficient solutions, sustainable manufacturing processes, and carbon-neutral operations across all product lines.",
+    "summary": "Environmental commitment through green technology solutions.",
+    "excerpt": "Comprehensive sustainability program for eco-friendly sports technology.",
+    "type": "news",
+    "category": "Sustainability",
+    "image": "/images/news/news-4.jpg",
+    "images": [
+      "/images/news/news-4.jpg"
+    ],
+    "author": "Sustainability Team",
+    "publishDate": "2023-08-30",
+    "publishedAt": "2023-08-30T09:15:00.000Z",
+    "isPublished": true,
+    "featured": false,
+    "tags": ["Sustainability", "Green Technology", "Environment", "Energy Efficiency"],
+    "readTime": "6 min read"
+  },
+  {
+    "id": "5",
+    "slug": "international-expansion-announcement",
+    "title": "LUMORGE Expands to European Markets",
+    "content": "LUMORGE announces its expansion into European markets with new partnerships and regional offices. The expansion will bring advanced sports technology solutions to venues across Europe, supporting the growing demand for high-quality display and audio systems.",
+    "summary": "Strategic expansion brings advanced technology to European venues.",
+    "excerpt": "New partnerships and offices support European market growth.",
+    "type": "news",
+    "category": "Business",
+    "image": "/images/news/news-5.jpg",
+    "images": [
+      "/images/news/news-5.jpg"
+    ],
+    "author": "Business Development",
+    "publishDate": "2023-07-25",
+    "publishedAt": "2023-07-25T11:20:00.000Z",
+    "isPublished": true,
+    "featured": false,
+    "tags": ["Expansion", "Europe", "Partnership", "Growth"],
+    "readTime": "3 min read"
+  }
+]

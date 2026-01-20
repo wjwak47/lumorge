@@ -1,0 +1,9 @@
+[
+  { "id": "all", "name": "All Products" },
+  { "id": "display", "name": "Display Systems" },
+  { "id": "control", "name": "Control Systems" },
+  { "id": "connectivity", "name": "Connectivity" },
+  { "id": "analytics", "name": "Analytics" },
+  { "id": "security", "name": "Security" },
+  { "id": "infrastructure", "name": "Infrastructure" }
+]
