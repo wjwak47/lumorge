@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2, Globe, Award, Headphones } from "lucide-react";
 import Image from "next/image";
 import { getHeroBannerData } from "@/utils/api";
 
@@ -339,13 +339,23 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 right-0 bg-blue-900/10 backdrop-blur-xl z-10 py-6 border-t border-white/10">
         <div className="wide-container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            {bannerData && bannerData.stats && bannerData.stats.map((stat, index) => (
-              <div key={stat._id || index} className="text-white">
-                <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">{stat.value}</div>
-                <div className="text-white/70 text-sm">{stat.label}</div>
-              </div>
-            ))}
-            {/* Fallback or loading state for stats - currently shows nothing if bannerData or stats are null/empty */}
+            {bannerData && bannerData.stats && bannerData.stats.map((stat, index) => {
+              // 专业的 Lucide 图标
+              const IconComponents = [Building2, Globe, Award, Headphones];
+              const Icon = IconComponents[index] || Building2;
+              return (
+                <div key={stat._id || index} className="text-white flex items-center justify-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                    <Icon size={20} className="text-blue-300" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-2xl font-bold text-white">{stat.value}</div>
+                    <div className="text-white/60 text-xs">{stat.label}</div>
+                  </div>
+                </div>
+              );
+            })}
+            {/* Fallback or loading state for stats */}
             {isLoading && !bannerData && Array(4).fill(null).map((_, index) => (
               <div key={`loading-stat-${index}`} className="text-white animate-pulse">
                 <div className="h-8 bg-gray-700 rounded w-1/2 mx-auto mb-1"></div>
